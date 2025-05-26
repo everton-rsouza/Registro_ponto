@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funcionários - Controle de Ponto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hover-tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 0;
+            top: 100%;
+            background: #333;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 100;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <div class="min-h-screen">
+        <header class="bg-blue-600 text-white shadow-md">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <h1 class="text-2xl font-bold">Controle de Ponto</h1>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm">Bem-vindo, Admin</span>
+                    <button class="bg-blue-700 hover:bg-blue-800 px-3 py-1 rounded text-sm">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Sair
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex">
+            <aside class="w-64 bg-white shadow-md h-screen sticky top-0">
+                <nav class="p-4">
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="Index.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="funcionarios.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-users mr-3"></i> Funcionários
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ponto.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-clock mr-3"></i> Lançamento de Ponto
+                            </a>
+                        </li>
+                        <li>
+                            <a href="Atestado_folga.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-file-medical mr-3"></i> Atestados e Folgas
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ferias.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-umbrella-beach mr-3"></i> Férias
+                            </a>
+                        </li>
+                        <li>
+                            <a href="acerto_horas.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-balance-scale mr-3"></i> Acerto de Horas
+                            </a>
+                        </li>
+                        <li>
+                            <a href="relatorios.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-file-alt mr-3"></i> Relatórios
+                            </a>
+                        </li>
+                        <li>
+                            <a href="feriados.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-calendar-day mr-3"></i> Feriados
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="flex-1 p-8">
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-6 text-gray-800">Gerenciamento de Funcionários</h2>
+
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex space-x-2">
+                            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                                <i class="fas fa-plus mr-2"></i> Novo Funcionário
+                            </button>
+                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                                <i class="fas fa-upload mr-2"></i> Importar
+                            </button>
+                            <button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                                <i class="fas fa-download mr-2"></i> Exportar
+                            </button>
+                        </div>
+                        <div class="relative">
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="search-funcionario" type="text" placeholder="Buscar Funcionário...">
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <i class="fas fa-search text-gray-500"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white shadow-md rounded my-6">
+                        <table class="min-w-max w-full table-auto">
+                            <thead>
+                                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                    <th class="py-3 px-6 text-left">Nome</th>
+                                    <th class="py-3 px-6 text-left">Departamento</th>
+                                    <th class="py-3 px-6 text-center">Matrícula</th>
+                                    <th class="py-3 px-6 text-center">Admissão</th>
+                                    <th class="py-3 px-6 text-center">Status</th>
+                                    <th class="py-3 px-6 text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-600 text-sm font-light">
+                                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                    <td class="py-3 px-6 text-left whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="mr-2">
+                                                <img class="w-8 h-8 rounded-full" src="https://randomuser.me/api/portraits/men/1.jpg" alt="Avatar of John Doe">
+                                            </div>
+                                            <span>John Doe</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-6 text-left">
+                                        Desenvolvimento
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        12345
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        01/01/2023
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">Ativo</span>
+                                    </td>
+                                    <td class="py-3 px-6 text-right">
+                                        <div class="flex justify-end space-x-2">
+                                            <button class="text-blue-500 hover:text-blue-700">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-yellow-500 hover:text-yellow-700">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-red-500 hover:text-red-700">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                    <td class="py-3 px-6 text-left whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="mr-2">
+                                                <img class="w-8 h-8 rounded-full" src="https://randomuser.me/api/portraits/women/2.jpg" alt="Avatar of Jane Smith">
+                                            </div>
+                                            <span>Jane Smith</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-6 text-left">
+                                        Marketing
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        54321
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        15/02/2023
+                                    </td>
+                                    <td class="py-3 px-6 text-center">
+                                        <span class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">Inativo</span>
+                                    </td>
+                                    <td class="py-3 px-6 text-right">
+                                        <div class="flex justify-end space-x-2">
+                                            <button class="text-blue-500 hover:text-blue-700">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-yellow-500 hover:text-yellow-700">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-red-500 hover:text-red-700">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <div class="text-sm text-gray-500">
+                            Mostrando 1 a 10 de 57 resultados
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+                                Anterior
+                            </button>
+                            <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                                Próximo
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Aqui você colocaria os scripts para interagir com os elementos da página
+        // Por exemplo, para buscar funcionários, adicionar, editar, etc.
+        // Normalmente, você usaria JavaScript para fazer chamadas AJAX para um servidor
+        // para buscar/salvar os dados.
+
+        // Exemplo básico de busca (apenas no lado do cliente, sem servidor)
+        const searchInput = document.getElementById('search-funcionario');
+        const tableRows = document.querySelectorAll('tbody tr');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            tableRows.forEach(row => {
+                const nome = row.querySelector('td:nth-child(1) span').textContent.toLowerCase();
+                const departamento = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                const matricula = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+
+                if (nome.includes(searchTerm) || departamento.includes(searchTerm) || matricula.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

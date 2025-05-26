@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - Controle de Ponto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hover-tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 0;
+            top: 100%;
+            background: #333;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 100;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <div class="min-h-screen">
+        <header class="bg-blue-600 text-white shadow-md">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <h1 class="text-2xl font-bold">Controle de Ponto</h1>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm">Bem-vindo, Admin</span>
+                    <button class="bg-blue-700 hover:bg-blue-800 px-3 py-1 rounded text-sm">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Sair
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex">
+            <aside class="w-64 bg-white shadow-md h-screen sticky top-0">
+                <nav class="p-4">
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="Index.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="funcionarios.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-users mr-3"></i> Funcionários
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ponto.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-clock mr-3"></i> Lançamento de Ponto
+                            </a>
+                        </li>
+                        <li>
+                            <a href="Atestado_folga.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-file-medical mr-3"></i> Atestados e Folgas
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ferias.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-umbrella-beach mr-3"></i> Férias
+                            </a>
+                        </li>
+                        <li>
+                            <a href="acerto_horas.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-balance-scale mr-3"></i> Acerto de Horas
+                            </a>
+                        </li>
+                        <li>
+                            <a href="relatorios.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-file-alt mr-3"></i> Relatórios
+                            </a>
+                        </li>
+                        <li>
+                            <a href="feriados.html" class="flex items-center p-2 text-gray-700 hover:bg-blue-50 rounded hover:text-blue-600">
+                                <i class="fas fa-calendar-day mr-3"></i> Feriados
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="flex-1 p-8">
+                <section class="mb-8">
+                    <h2 class="text-2xl font-semibold mb-6 text-gray-800">Gerar Relatórios</h2>
+
+                    <div class="bg-white shadow-md rounded my-6 p-6">
+                        <form id="relatorio-form" class="mb-4">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label for="tipo-relatorio" class="block text-gray-700 text-sm font-bold mb-2">Tipo de Relatório:</label>
+                                    <select id="tipo-relatorio" name="tipo-relatorio" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                        <option value="ponto">Registro de Ponto</option>
+                                        <option value="atestados">Atestados</option>
+                                        <option value="ferias">Férias</option>
+                                        <option value="acerto-horas">Acerto de Horas</option>
+                                        </select>
+                                </div>
+                                <div>
+                                    <label for="data-inicio" class="block text-gray-700 text-sm font-bold mb-2">Data Início:</label>
+                                    <input type="date" id="data-inicio" name="data-inicio" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="2024-07-01">
+                                </div>
+                                <div>
+                                    <label for="data-fim" class="block text-gray-700 text-sm font-bold mb-2">Data Fim:</label>
+                                    <input type="date" id="data-fim" name="data-fim" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="2024-07-31">
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                    <i class="fas fa-file-pdf mr-2"></i> Gerar Relatório (PDF)
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <h3 class="text-lg font-semibold mb-4">Visualização do Relatório</h3>
+                    <div id="relatorio-container" class="bg-gray-100 p-4 rounded">
+                        <p class="text-gray-700">Selecione os filtros e clique em "Gerar Relatório (PDF)" para visualizar o relatório.</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const relatorioForm = document.getElementById('relatorio-form');
+            const relatorioContainer = document.getElementById('relatorio-container');
+
+            relatorioForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Evita o envio padrão do formulário
+
+                // Aqui você colocaria a lógica para gerar o relatório no servidor
+                // e obter o PDF (usando Fetch API ou AJAX).
+
+                // Exemplo simples (apenas no lado do cliente, substitua pela lógica real):
+                const tipoRelatorio = document.getElementById('tipo-relatorio').value;
+                const dataInicio = document.getElementById('data-inicio').value;
+                const dataFim = document.getElementById('data-fim').value;
+
+                const conteudoRelatorio = `
+                    <h2 class="text-xl font-semibold mb-4">Relatório de ${tipoRelatorio}</h2>
+                    <p>Período: ${dataInicio} a ${dataFim}</p>
+                    `;
+
+                relatorioContainer.innerHTML = conteudoRelatorio;
+
+                // Lógica para abrir o PDF (se você estiver gerando um PDF real)
+                // window.open('caminho/para/o/relatorio.pdf', '_blank');
+            });
+        });
+    </script>
+</body>
+
+</html>
